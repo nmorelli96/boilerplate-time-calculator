@@ -5,31 +5,41 @@ def add_time(start, duration, day=None):
         startList = start.split()
         startMeridien = startList[1].lower()
     except:
-        return ("Error: start time must be in format 'XX:XX PM' or 'X:XX AM'")
+        return ("Error: start time must be in format '##:## PM' or '#:## AM'")
     if len(startList) != 2 or startMeridien not in ['am', 'pm']:
-        return("Error: start time must be in format 'XX:XX PM' or 'X:XX AM'")
+        return("Error: start time must be in format '##:## PM' or '#:## AM'")
     try:
         startHours = startList[0].split(':')[0]
         startMinutes = startList[0].split(':')[1]
         if len(startMinutes) != 2:
             return ("Error: minutes in start time must have 2 digits")
+        if int(startHours) > 12:
+            return ("Error: hours in start time can't be greater than 12")
+        if int(startMinutes) > 59:
+            return ("Error: minutes in start time can't be greater than 59")
     except:
-        return ("Error: start time must be in format 'XX:XX PM' or 'X:XX AM'")
+        return ("Error: start time must be in format '##:## PM' or '#:## AM'")
 #duration checks
     try:
         if len(duration.split(':')) != 2:
-            return ("Error: duration must be in format 'XX:XX' or 'X:XX'")
+            return ("Error: duration must be in format '##:##' or '#:##'")
         durationHours = duration.split(':')[0]
         durationMinutes = duration.split(':')[1]
+        if int(durationHours) < 0 or int(durationMinutes) < 0:
+            return ("Error: duration must be in format '##:##' or '#:##'")
+        if len(durationMinutes) != 2:
+            return ("Error: minutes in duration must have 2 digits'")
+        if int(durationMinutes) > 59:
+            return ("Error: minutes in duration can't be greater than 59")
     except:
-        return ("Error: duration must be in format 'XX:XX' or 'X:XX'")
+        return ("Error: duration must be in format '##:##' or '#:##'")
 #day checks
     if day != None:
         try:
             daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
             dayLow = day.lower()
             if dayLow not in daysOfWeek:
-                return ("Error: if you specify a day, it must be a day of the week with no typos'")
+                return ("Error: if you specify a day, it must be a day of the week with no typos")
         except:
             return ("Error: if you specify a day, it must be a day of the week with no typos'")
 #time logic
@@ -86,11 +96,11 @@ def add_time(start, duration, day=None):
     else:
         return finalString + ' (' + str(daysElapsed) + ' days later)'
 
-#print(add_time("3:00 PM", "3:10"))
+#print(add_time("3:19 PM", "3:10"))
 #print(add_time("11:30 AM", "2:32", "Monday"))
 #print(add_time("11:43 AM", "00:20"))
 #print(add_time("10:10 PM", "3:30"))
 #print(add_time("11:43 PM", "24:20", "tueSday"))
 #print(add_time("6:30 PM", "205:12"))
 #print(add_time("2:59 AM", "24:00", "saturDay"))
-#print(add_time("11:59 PM", "24:05", "Wednesday"))
+#print(add_time("11:59 PM", "21:35", "Wednesday"))
